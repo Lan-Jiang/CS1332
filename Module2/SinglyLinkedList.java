@@ -85,6 +85,21 @@ public class SinglyLinkedList<T> {
      */
     public T removeFromFront() {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        // step 1 check if the list is empty, if empty return error
+        // step 2 remove the first data of the singly linked list
+        // step 3 update the head and tail
+        // step 4 update the size
+        if (head == null) {
+            throw new NoSuchElementException("ERROR : Empty List Exception");
+        } else {
+            SinglyLinkedListNode<T> temp = head;
+            head = head.getNext();
+            if (head == null) {
+                tail = null;
+            }
+            size--;
+            return temp.getData();
+        }
     }
 
     /**
@@ -97,6 +112,30 @@ public class SinglyLinkedList<T> {
      */
     public T removeFromBack() {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        // step 1 check if the list is empty, if empty return error
+        // step 2 remove the last data of the singly linked list
+        // step 3 update the head and tail
+        // step 4 update the size
+        if (head == null) {
+            throw new NoSuchElementException("ERROR : Empty List Exception");
+        } else {
+            SinglyLinkedListNode<T> temp = head;
+            SinglyLinkedListNode<T> prev = null;
+            while (temp.getNext() != null) {
+                prev = temp;
+                temp = temp.getNext();
+            }
+            if (prev == null) {
+                head = null;
+                tail = null;
+            } else {
+                prev.setNext(null);
+                tail = prev;
+            }
+            size--;
+            return temp.getData();
+        }
+        
     }
 
     /**
