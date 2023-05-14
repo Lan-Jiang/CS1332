@@ -26,6 +26,24 @@ public class SinglyLinkedList<T> {
      */
     public void addToFront(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        // step1 check if data is null, if null return error
+        // step 2 add new data to the fron of the singly linked list
+        // step 3 update the head and tail
+        // step 4 update the size
+        if (data == null) {
+            throw new IllegalArgumentException("ERROR : Null data Exception");
+        } else {
+            SinglyLinkedListNode<T> newNode = new SinglyLinkedListNode<T>(data);
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                newNode.setNext(head);
+                head = newNode;
+            }
+            size++;
+        }
+
     }
 
     /**
@@ -38,6 +56,23 @@ public class SinglyLinkedList<T> {
      */
     public void addToBack(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        // step 1 check if data is null, if null return error
+        // step 2 add new data to the back of the singly linked list
+        // step 3 update the head and tail
+        // step 4 update the size
+        if (data == null) {
+            throw new IllegalArgumentException("ERROR : Null data Exception");
+        } else {
+            SinglyLinkedListNode<T> newNode = new SinglyLinkedListNode<T>(data);
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.setNext(newNode);
+                tail = newNode;
+            }
+            size++;
+        }
     }
 
     /**
