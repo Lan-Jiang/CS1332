@@ -44,6 +44,31 @@ public class ArrayQueue<T> {
      */
     public void enqueue(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        // step 1 check if queue is null
+        // step 2 if null and empty, add to front
+        // step 3 if null and front is not in first index, add to localtion = (front + size) % backingArray.length
+        // step 4 if size is less than backingArray.length, add data to end
+        // step 5 if size qeuals to backingarray.length, resize, backingArray.length*2 and move data to front
+        // step 6 increment size
+        // step 7 return
+        if (data == null) {
+            throw new IllegalArgumentException("Data is null");
+        }
+        if (size == backingArray.length)
+        {
+            T[] temp = (T[]) new Object[backingArray.length * 2];
+
+            for (int i = 0; i < backingArray.length; i++)
+            {
+                temp[i] = backingArray[(front + i) % backingArray.length];
+            }
+
+            backingArray = temp;
+            front = 0;
+        }
+
+        backingArray[((size++) + front) % backingArray.length] = data;
+        
     }
 
     /**
@@ -63,6 +88,15 @@ public class ArrayQueue<T> {
      */
     public T dequeue() {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (size == 0) {
+            throw new java.util.NoSuchElementException("Queue is emppty.");
+       }else {
+           T data = backingArray[front];
+           backingArray[front] = null;
+           front = (front + 1) % backingArray.length;
+           size--;
+           return data;
+       }
     }
 
     /**
