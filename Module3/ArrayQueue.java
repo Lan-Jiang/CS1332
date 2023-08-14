@@ -1,3 +1,5 @@
+package Module3;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -21,7 +23,7 @@ public class ArrayQueue<T> {
 
     /**
      * This is the constructor that constructs a new ArrayQueue.
-     * 
+     *
      * Recall that Java does not allow for regular generic array creation,
      * so instead we cast an Object[] to a T[] to get the generic typing.
      */
@@ -68,7 +70,7 @@ public class ArrayQueue<T> {
         }
 
         backingArray[((size++) + front) % backingArray.length] = data;
-        
+
     }
 
     /**
