@@ -51,8 +51,7 @@ public class MinHeap<T extends Comparable<? super T>> {
             backingArray[size + 1] = data;
             size++;
             upheap(size);
-        } else {
-            backingArray[size + 1] = data;
+        } else {            backingArray[size + 1] = data;
             size++;
             upheap(size);
         }
