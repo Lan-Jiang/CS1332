@@ -174,8 +174,7 @@ public class ExternalChainingHashMap<K, V> {
 
         ExternalChainingMapEntry<K, V>[] entries = new ExternalChainingMapEntry[length];
         for (ExternalChainingMapEntry entry : table) {
-            if (entry != null)
-            {
+            if (entry != null) {
                 int index = Math.abs(entry.getKey().hashCode() % entries.length);
                 entries[index] = entry;
             }
