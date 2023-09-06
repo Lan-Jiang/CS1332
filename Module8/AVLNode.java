@@ -1,5 +1,3 @@
-package Module8;
-
 /**
  * Node class used for implementing the AVL.
  *

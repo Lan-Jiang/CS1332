@@ -27,6 +27,26 @@ public class Sorting {
      */
     public static <T> void bubbleSort(T[] arr, Comparator<T> comparator) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (arr == null || comparator == null)
+            {
+                throw new IllegalArgumentException("ERROR : Null array or comparator");
+        }
+
+        int n = arr.length;
+        boolean swapped;
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < n - i - 1; j++) {
+                if (comparator.compare(arr[j], arr[j + 1]) >0 ) {
+                    // Swap arr[j] and arr[j+1]
+                    swap(arr, j, j+1);
+                }
+            }
+            // If no two elements were swapped in the inner loop, the array is already sorted
+            if (!swapped) {
+                break;
+            }
+        }
     }
 
     /**
@@ -49,6 +69,22 @@ public class Sorting {
      */
     public static <T> void selectionSort(T[] arr, Comparator<T> comparator) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (arr == null || comparator == null)
+            {
+                throw new IllegalArgumentException("ERROR : Null array or comparator");
+            }
+            for (int i = 0; i < arr.length - 1; i++)
+            {
+                int min = i;
+                for (int j = i + 1; j < arr.length; j++)
+                {
+                    if (comparator.compare(arr[j], arr[min]) < 0)
+                    {
+                        min = j;
+                    }
+                }
+                swap(arr, min, i);
+            }
     }
 
     /**
@@ -71,5 +107,26 @@ public class Sorting {
      */
     public static <T> void insertionSort(T[] arr, Comparator<T> comparator) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (arr == null || comparator == null)
+            {
+                throw new IllegalArgumentException("ERROR : Null array or comparator");
+            }
+            for (int i = 1; i < arr.length; i++)
+            {
+                T tmp = arr[i];
+                int j = i - 1;
+                while (j >= 0 && comparator.compare(arr[j], tmp) > 0)
+                {
+                    arr[j + 1] = arr[j--];
+                }
+                arr[j + 1] = tmp;
+        }
     }
+
+    private static <T > void swap (T[]arr,int a, int b)
+        {
+            T tmp = arr[a];
+            arr[a] = arr[b];
+            arr[b] = tmp;
+        }
 }
