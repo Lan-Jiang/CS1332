@@ -44,44 +44,42 @@ public class Sorting {
         if (arr == null || comparator == null)
             {
                 throw new IllegalArgumentException("ERROR : Null array or comparator");
-        }
-
-        int n = arr.length;
-        if (n < 2) {
-        return;
-        }
-        int mid = n / 2;
-        int[] l = new int[mid];
-        int[] r = new int[n - mid];
-
-        for (int i = 0; i < mid; i++) {
-            l[i] = a[i];
-        }
-        for (int i = mid; i < n; i++) {
-            r[i - mid] = a[i];
-        }
-        mergeSort(l, mid);
-        mergeSort(r, n - mid);
-
-        merge(a, l, r, mid, n - mid);
-    }
-
-    public static void merge(int[] a, int[] l, int[] r, int left, int right) {
-
-        int i = 0, j = 0, k = 0;
-        while (i < left && j < right) {
-            if (l[i] <= r[j]) {
-                a[k++] = l[i++];
             }
-            else {
-                a[k++] = r[j++];
+
+        if(arr.length < 2){
+            return;
+        }
+        int length = arr.length;
+        int mid_index = length/2;
+        T[] left = (T[]) new Object[mid_index];
+        T[] right = (T[]) new Object[length-mid_index];
+        for(int i = 0; i < left.length; i++){
+            left[i] = arr[i];
+        }
+        for(int i = 0; i < right.length; i++){
+            right[i] = arr[mid_index + i];
+        }
+        mergeSort(left, comparator);
+        mergeSort(right, comparator);
+
+        int i = 0;
+        int j = 0;
+        while(i < left.length && j < right.length){
+            if(comparator.compare(left[i], right[j]) <= 0){
+                arr[i+j] = left[i];
+                i++;
+            }else{
+                arr[i+j] = right[j];
+                j++;
             }
         }
-        while (i < left) {
-            a[k++] = l[i++];
+        while(i < left.length){
+            arr[i+j] = left[i];
+            i++;
         }
-        while (j < right) {
-            a[k++] = r[j++];
+        while(j < right.length){
+            arr[i+j] = right[j];
+            j++;
         }
     }
 
@@ -115,8 +113,66 @@ public class Sorting {
      *
      * @param arr The array to be sorted.
      */
-    public static void lsdRadixSort(int[] arr) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+    private static int num_digits(int n){
+        if(n == -2147483648){
+            return 10;
+        }
+        n = Math.abs(n);
+        int k = 0;
+        while(n > 0){
+            n /= 10;
+            k++;
+        }
+        return k;
+    }
+
+    private static int last_digit(int n, int divisor){
+        if(n == -2147483648){
+            return 8;
+        }
+        return (Math.abs(n) / divisor) % 10;
 
     }
+
+    public static void lsdRadixSort(int[] arr) {
+        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (arr == null )
+            {
+                throw new IllegalArgumentException("ERROR : Null array or comparator");
+            }
+
+        Queue<Integer>[] buckets = new LinkedList[19];
+        for(int i = 0; i < 19; i++){
+            buckets[i] = new LinkedList<Integer>();
+        }
+        int max_digits = 0;
+        for(int i = 0; i < arr.length; i++){
+            int curr_digits = num_digits(arr[i]);
+            if(curr_digits > max_digits){
+                max_digits = curr_digits;
+            }
+        }
+        int divisor = 1;
+        for(int m = 0; m < max_digits; m++){
+            for(int i = 0; i < arr.length; i++){
+                int bucket_idx;
+                if(arr[i] < 0){
+                    bucket_idx = 9 - last_digit(arr[i], divisor);
+                }else{
+                    bucket_idx = 9 + last_digit(arr[i], divisor);
+
+                }
+                buckets[bucket_idx].add(arr[i]);
+            }
+            int idx = 0;
+            for(int i = 0; i < 19; i++){
+                while(buckets[i].peek() != null){
+                    arr[idx] = buckets[i].remove();
+                    idx++;
+                }
+            }
+            divisor *= 10;
+        }
+    }
+
 }

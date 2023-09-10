@@ -37,6 +37,17 @@ public class AVL<T extends Comparable<? super T>> {
      */
     public void add(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (data == null) {
+            throw new IllegalArgumentException("Cannot add data of null value to tree.");
+        }
+        if (root == null) {
+            root = new AVLNode<T>(data);
+            updateHeightBalanceFactor(root);
+            size++;
+        } else {
+            root = add(data, root);
+            size++;
+        }
     }
 
     /**
@@ -70,6 +81,47 @@ public class AVL<T extends Comparable<? super T>> {
      */
     public T remove(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (data == null) {
+            throw new IllegalArgumentException("Cannot remove 'null' data.");
+        }
+        if (!contains(data)) {
+            throw new NoSuchElementException("Element does not exist in BST.");
+        }
+        T removed = get(data);
+        root = removeNode(data, root);
+        size--;
+        return removed;
+
+    }
+
+    private AVLNode<T> removeNode(T data, AVLNode<T> current) {
+        if (current == null) {
+            return null;
+        }
+        int compare = data.compareTo(current.getData());
+        if (compare < 0) {
+            current.setLeft(removeNode(data, current.getLeft()));
+        } else if (compare > 0) {
+            current.setRight(removeNode(data, current.getRight()));
+        } else {
+            if (current.getLeft() == null) {
+                return current.getRight();
+            } else if (current.getRight() == null) {
+                return current.getLeft();
+            } else {
+                current.setData(getPredecessor(current.getLeft()));
+                current.setLeft(removeNode(current.getData(), current.getLeft()));
+            }
+        }
+        updateHeightAndBF(current);
+        return balance(current);
+    }
+
+    private T getPredecessor(AVLNode<T> node) {
+        while (node.getRight() != null) {
+            node = node.getRight();
+        }
+        return node.getData();
     }
 
     /**

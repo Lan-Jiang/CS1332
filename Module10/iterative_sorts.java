@@ -30,23 +30,23 @@ public class Sorting {
         if (arr == null || comparator == null)
             {
                 throw new IllegalArgumentException("ERROR : Null array or comparator");
+            }
+
+        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        int stop_idx = arr.length - 1;
+        while(stop_idx != 0){
+            int i = 0;
+            int last_swapped = 0;
+            while(i < stop_idx){
+                if(comparator.compare(arr[i], arr[i+1]) > 0){
+                    swap(arr, i, i+1);
+                    last_swapped = i;
+                }
+                i++;
+            }
+            stop_idx = last_swapped;
         }
 
-        int n = arr.length;
-        boolean swapped;
-        for (int i = 0; i < n - 1; i++) {
-            swapped = false;
-            for (int j = 0; j < n - i - 1; j++) {
-                if (comparator.compare(arr[j], arr[j + 1]) >0 ) {
-                    // Swap arr[j] and arr[j+1]
-                    swap(arr, j, j+1);
-                }
-            }
-            // If no two elements were swapped in the inner loop, the array is already sorted
-            if (!swapped) {
-                break;
-            }
-        }
     }
 
     /**
@@ -73,7 +73,7 @@ public class Sorting {
             {
                 throw new IllegalArgumentException("ERROR : Null array or comparator");
             }
-            for (int i = 0; i < arr.length - 1; i++)
+        for (int i = 0; i < arr.length - 1; i++)
             {
                 int min = i;
                 for (int j = i + 1; j < arr.length; j++)
@@ -111,7 +111,7 @@ public class Sorting {
             {
                 throw new IllegalArgumentException("ERROR : Null array or comparator");
             }
-            for (int i = 1; i < arr.length; i++)
+        for (int i = 1; i < arr.length; i++)
             {
                 T tmp = arr[i];
                 int j = i - 1;
