@@ -5,12 +5,17 @@ import java.util.NoSuchElementException;
 /**
  * Your implementation of the AVL tree rotations.
  */
-public class AVL<T extends Comparable<? super T>> {
+import java.util.NoSuchElementException;
+
+/**
+ * Your implementation of an AVL.
+ */
+public class AVL_P2<T extends Comparable<? super T>> {
 
     /*
      * Do not add new instance variables or modify existing ones.
      */
-    private AVLNode<T> root;
+    private AVLNode_P2<T> root;
     private int size;
 
     /*
@@ -37,17 +42,6 @@ public class AVL<T extends Comparable<? super T>> {
      */
     public void add(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        if (data == null) {
-            throw new IllegalArgumentException("Cannot add data of null value to tree.");
-        }
-        if (root == null) {
-            root = new AVLNode<T>(data);
-            updateHeightBalanceFactor(root);
-            size++;
-        } else {
-            root = add(data, root);
-            size++;
-        }
     }
 
     /**
@@ -81,47 +75,6 @@ public class AVL<T extends Comparable<? super T>> {
      */
     public T remove(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        if (data == null) {
-            throw new IllegalArgumentException("Cannot remove 'null' data.");
-        }
-        if (!contains(data)) {
-            throw new NoSuchElementException("Element does not exist in BST.");
-        }
-        T removed = get(data);
-        root = removeNode(data, root);
-        size--;
-        return removed;
-
-    }
-
-    private AVLNode<T> removeNode(T data, AVLNode<T> current) {
-        if (current == null) {
-            return null;
-        }
-        int compare = data.compareTo(current.getData());
-        if (compare < 0) {
-            current.setLeft(removeNode(data, current.getLeft()));
-        } else if (compare > 0) {
-            current.setRight(removeNode(data, current.getRight()));
-        } else {
-            if (current.getLeft() == null) {
-                return current.getRight();
-            } else if (current.getRight() == null) {
-                return current.getLeft();
-            } else {
-                current.setData(getPredecessor(current.getLeft()));
-                current.setLeft(removeNode(current.getData(), current.getLeft()));
-            }
-        }
-        updateHeightAndBF(current);
-        return balance(current);
-    }
-
-    private T getPredecessor(AVLNode<T> node) {
-        while (node.getRight() != null) {
-            node = node.getRight();
-        }
-        return node.getData();
     }
 
     /**
@@ -144,28 +97,8 @@ public class AVL<T extends Comparable<? super T>> {
      *
      * @param currentNode The node to update the height and balance factor of.
      */
-    public void updateHeightAndBF(AVLNode<T> currentNode) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        int leftH = 0;
-        int rightH = 0;
-
-        if (currentNode.getLeft() == null)
-        {
-            leftH = -1;
-        } else
-        {
-            leftH = currentNode.getLeft().getHeight();
-        }
-        if (currentNode.getRight() == null)
-        {
-            rightH = -1;
-        } else
-        {
-            rightH = currentNode.getRight().getHeight();
-        }
-
-        currentNode.setHeight(Math.max(leftH, rightH) + 1);
-        currentNode.setBalanceFactor(leftH - rightH);
+    private void updateHeightAndBF(AVLNode_P2<T> node) {
+        // COPY YOUR CODE FROM PART 1 OF THE ASSIGNMENT!
     }
 
     /**
@@ -189,17 +122,8 @@ public class AVL<T extends Comparable<? super T>> {
      * @param currentNode The current node under inspection that will rotate.
      * @return The parent of the node passed in (after the rotation).
      */
-    public AVLNode<T> rotateLeft(AVLNode<T> currentNode) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        AVLNode<T> right = currentNode.getRight();
-
-        currentNode.setRight(right.getLeft());
-        right.setLeft(currentNode);
-
-        updateHeightAndBF(currentNode);
-        updateHeightAndBF(right);
-
-        return right;
+    private AVLNode_P2<T> rotateLeft(AVLNode_P2<T> currentNode) {
+        // COPY YOUR CODE FROM PART 1 OF THE ASSIGNMENT!
     }
 
     /**
@@ -223,25 +147,14 @@ public class AVL<T extends Comparable<? super T>> {
      * @param currentNode The current node under inspection that will rotate.
      * @return The parent of the node passed in (after the rotation).
      */
-    public AVLNode<T> rotateRight(AVLNode<T> currentNode) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        AVLNode<T> left = currentNode.getLeft();
-
-        currentNode.setLeft(left.getRight());
-        left.setRight(currentNode);
-
-        updateHeightAndBF(currentNode);
-        updateHeightAndBF(left);
-
-        return left;
+    private AVLNode_P2<T> rotateRight(AVLNode_P2<T> currentNode) {
+        // COPY YOUR CODE FROM PART 1 OF THE ASSIGNMENT!
     }
 
     /**
-     * This is the overarching method that is used to balance a subtree
-     * starting at the passed in node. This method will utilize
-     * updateHeightAndBF(), rotateLeft(), and rotateRight() to balance
-     * the subtree. In part 2 of this assignment, this balance() method
-     * will be used in your add() and remove() methods.
+     * Method that balances out the tree starting at the node passed in.
+     * This method should be called in your add() and remove() methods to
+     * facilitate rebalancing your tree after an operation.
      *
      * The height and balance factor of the current node is first recalculated.
      * Based on the balance factor, a no rotation, a single rotation, or a
@@ -253,30 +166,36 @@ public class AVL<T extends Comparable<? super T>> {
      *
      * This method should run in O(1).
      *
-     * @param cur The current node under inspection.
+     * @param currentNode The current node under inspection.
      * @return The AVLNode that the caller should return.
      */
-    public AVLNode<T> balance(AVLNode<T> currentNode) {
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+    private AVLNode_P2<T> balance(AVLNode_P2<T> currentNode) {
+        // COPY YOUR CODE FROM PART 1 OF THE ASSIGNMENT!
+    }
 
-        updateHeightAndBF(currentNode);
+    /**
+     * Returns the root of the tree.
+     *
+     * For grading purposes only. You shouldn't need to use this method since
+     * you have direct access to the variable.
+     *
+     * @return The root of the tree.
+     */
+    public AVLNode_P2<T> getRoot() {
+        // DO NOT MODIFY THIS METHOD!
+        return root;
+    }
 
-        if ( currentNode.getBalanceFactor() < -1)
-        {
-            if ( currentNode.getRight().getBalanceFactor() > 0)
-            {
-                currentNode.setRight(rotateRight(currentNode.getRight()));
-            }
-            currentNode = rotateLeft(currentNode);
-        } else if ( currentNode.getBalanceFactor() > 1)
-        {
-            if ( currentNode.getLeft().getBalanceFactor() < 0)
-            {
-                currentNode.setLeft(rotateLeft(currentNode.getLeft()));
-            }
-            currentNode = rotateRight(currentNode);
-        }
-
-        return currentNode;
+    /**
+     * Returns the size of the tree.
+     *
+     * For grading purposes only. You shouldn't need to use this method since
+     * you have direct access to the variable.
+     *
+     * @return The size of the tree.
+     */
+    public int size() {
+        // DO NOT MODIFY THIS METHOD!
+        return size;
     }
 }

@@ -32,21 +32,22 @@ public class Sorting {
                 throw new IllegalArgumentException("ERROR : Null array or comparator");
             }
 
-        // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        int stop_idx = arr.length - 1;
-        while(stop_idx != 0){
-            int i = 0;
-            int last_swapped = 0;
-            while(i < stop_idx){
-                if(comparator.compare(arr[i], arr[i+1]) > 0){
-                    swap(arr, i, i+1);
-                    last_swapped = i;
-                }
-                i++;
-            }
-            stop_idx = last_swapped;
-        }
+        boolean swapped;
+        for (int i = 0; i < arr.length - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                if (comparator.compare(arr[j], arr[j + 1]) > 0) {
+                    swapped = true;
+                    T temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
 
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
     }
 
     /**
