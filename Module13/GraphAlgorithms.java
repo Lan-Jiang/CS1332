@@ -42,6 +42,39 @@ public class GraphAlgorithms {
      */
     public static <T> List<Vertex<T>> bfs(Vertex<T> start, Graph<T> graph) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        Set<Vertex<T>> visited_set = new HashSet<>();
+        Queue<Vertex<T>> queue = new LinkedList<>();
+        Map<Vertex<T>, List<VertexDistance<T>>> adj_list = graph.getAdjList();
+        List<Vertex<T>> result = new ArrayList<>();
+        visited_set.add(start);
+        queue.add(start);
+        while(queue.peek() != null){
+            Vertex<T> v = queue.remove();
+            result.add(v);
+            List<VertexDistance<T>> neighbours = adj_list.get(v);
+            for(int i = 0; i < neighbours.size(); i++){
+                if(!visited_set.contains(neighbours.get(i).getVertex())){
+                    visited_set.add(neighbours.get(i).getVertex());
+                    queue.add(neighbours.get(i).getVertex());
+                }
+            }
+        }
+        return result;
+    }
+
+    private static <T> List<Vertex<T>> dfs_h(Vertex<T> u, Graph<T> graph, Set<Vertex<T>> visited_set, List<Vertex<T>> result) {
+        visited_set.add(u);
+        result.add(u);
+        List<VertexDistance<T>> neighbours = graph.getAdjList().get(u);
+        for(int i = 0; i < neighbours.size(); i++){
+            if(!visited_set.contains(neighbours.get(i).getVertex())){
+                dfs_h(neighbours.get(i).getVertex(), graph, visited_set, result);
+            }
+        }
+
+        return result;
+
+
     }
 
     /**
@@ -74,5 +107,8 @@ public class GraphAlgorithms {
      */
     public static <T> List<Vertex<T>> dfs(Vertex<T> start, Graph<T> graph) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        Set<Vertex<T>> visited_set = new HashSet<>();
+        List<Vertex<T>> result = new ArrayList<>();
+        return dfs_h(start, graph, visited_set, result);
     }
 }
